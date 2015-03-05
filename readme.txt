@@ -4,7 +4,7 @@ Tags: content, ipsum
 Donate link: http://baconipsum.com/
 Requires at least: 4.0
 Tested up to: 4.1
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,18 +22,22 @@ Includes:
 * JSON API
 * oEmbed support
 
-The plugin installs Bacon Ipsum filler by default, so be sure to sheck Settings/Any Ipsum to fully customize your ipsum.
+The plugin installs Bacon Ipsum filler by default, so be sure to check Settings/Any Ipsum to fully customize your ipsum.
 
 
 == Installation ==
 
 1. Upload the wp-any-ipsum directory to the `/wp-content/plugins/` directory
-1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Place the `[anyipsum-form]` shortcode in a page or post
-1. Check Settings/Any Ipsum to fully customize your ipsum
+2. Activate the plugin through the 'Plugins' menu in WordPress
+3. Place the `[anyipsum-form]` shortcode in a page or post
+4. Check Settings/Any Ipsum to fully customize your ipsum
 
 
 == Changelog ==
+
+= v1.2.1 March 4, 2015 =
+* Code refactoring to use filter_input() and better WordPress coding standards
+* Fixed activation bug that was not setting up the initial oEmbed settings
 
 = v1.2.0 January 7, 2015 =
 * Added admin notice to visit settings page on plugin activation
@@ -55,8 +59,9 @@ The plugin installs Bacon Ipsum filler by default, so be sure to sheck Settings/
 
 == Upgrade Notice ==
 
-= 1.0.0 =
-* Initial release
+= v1.2.1 March 4, 2015 =
+* Code refactoring to use filter_input() and better WordPress coding standards
+* Fixed activation bug that was not setting up the initial oEmbed settings
 
 
 == Frequently Asked Questions ==
@@ -69,4 +74,4 @@ We can answer them here!
 
 1. Configure your custom ipsum
 2. Sample form
-2. Sample output
+3. Sample output
