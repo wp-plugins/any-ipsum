@@ -36,57 +36,69 @@ if ( !class_exists( 'WPAnyIpsumAPI' ) ) {
 		}
 
 
-		function handle_api_request() {
+	    function handle_api_request() {
 
 			header( 'Access-Control-Allow-Origin: *' );
+			$type      = WPAnyIpsumCore::get_request( 'type' );
+			$callback  = WPAnyIpsumCore::get_request( 'callback' );
+			$format    = WPAnyIpsumCore::get_request( 'format' );
 
-			$type = WPAnyIpsumCore::get_request( 'type' );
-			$callback = WPAnyIpsumCore::get_request( 'callback' );
-            $format = WPAnyIpsumCore::get_request( 'format' );
-            if ( !in_array($format, array( 'json', 'text' ) ) ) {
-                $format = 'json';
-            }
-
-			if ( ! empty ( $type ) || ! empty ( $callback ) ) {
-
-				$args = apply_filters( 'anyipsum-parse-request-args', $_SERVER['REQUEST_METHOD'] === 'POST' ? $_REQUEST : $_SERVER['QUERY_STRING'] );
-				$paras = apply_filters( 'anyipsum-generate-filler', $args );
-
-				if ( ! empty( $args['callback'] ) ) {
-
-                    switch ($format) {
-                        case 'text':
-                            header( "Content-Type: text/plain" );
-                            foreach ($paras as $para) {
-                                echo $para . "\n\n";
-                            }
-                            break;
-                        default:
-                            header( "Content-Type: application/javascript" );
-                            echo $args['callback'] . '(' . json_encode( $paras ) . ');';
-                            break;
-                    }
-                }
-				else {
-                    switch ( $format ) {
-                        case 'text':
-                            header( "Content-Type: text/plain" );
-                            foreach ($paras as $para) {
-                                echo $para . "\n\n";
-                            }
-                            break;
-                       default:
-                            header( "Content-Type: application/json; charset=utf-8" );
-                            echo json_encode( $paras );
-                    }
-				}
-
-				exit;
-
+			// no need to keep going if there's nothing to do
+			if ( empty( $type ) && empty( $callback ) ) {
+				return;
 			}
 
+			if ( !in_array( $format, array( 'json', 'text', 'html' ) ) ) {
+				$format = 'json';
+			}
 
-		}
+			$args = apply_filters( 'anyipsum-parse-request-args', $_SERVER['REQUEST_METHOD'] === 'POST' ? $_REQUEST : $_SERVER['QUERY_STRING'] );
+			$paras = apply_filters( 'anyipsum-generate-filler', $args );
+
+			$content_type = '';
+			$output = '';
+
+			if ( ! empty( $args['callback'] ) ) {
+				$output_prefix = $args['callback'] . '(';
+				$output_suffix = ');';
+			} else {
+				$output_prefix = '';
+				$output_suffix = '';
+			}
+
+			switch ( $format ) {
+				case 'html':
+					$content_type = 'text/html';
+					foreach ( $paras as $para ) {
+						$output .= wpautop( $para );
+					}
+				break;
+
+				case 'text':
+					$content_type = 'text/plain';
+					$output = implode( "\n\n", $paras );
+				break;
+
+				default: // JSON
+					$content_type = 'application/json';
+					$output = json_encode( $paras );
+				break;
+			}
+
+			if ( ! empty( $args['callback'] ) ) {
+				$content_type = 'application/javascript';
+			}
+
+			header( 'Content-Type: ' . $content_type . '; charset=' . get_bloginfo( 'charset' ) );
+			header( 'Content-Length: ' . strlen( $output_prefix . $output . $output_suffix ) );
+
+			echo $output_prefix . $output . $output_suffix;
+
+			exit;
+
+
+	    } // end handle_api_request
+
 
 	}
 

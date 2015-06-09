@@ -4,7 +4,7 @@ Tags: content, ipsum
 Donate link: http://baconipsum.com/
 Requires at least: 4.0
 Tested up to: 4.2
-Stable tag: 1.3.0
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,13 +13,13 @@ Roll your own custom lorem ipsum generator
 == Description ==
 
 If you've ever had an idea for your own custom lorem ipsum generator (like Bacon Ipsum), this plugin will allow you to do so without any coding.  Just fill in a list of words, drop
-the `[anyipsum-form]` shortcode in a post or page, and you have your very own custom ipsum generator.  Forked from [Bacon Ipsum](http://baconipsum.com/)
+the `[anyipsum-form]` shortcode in a post or page, and you have your very own custom ipsum generator. Forked from [Bacon Ipsum](http://baconipsum.com)
 
 Includes:
 
 * [anyipsum-form] shortcode for end-users to use, fully configurable
 * custom words and filler text
-* API (returns JSON or plain text)
+* API (returns JSON, HTML or plain text)
 * oEmbed support
 
 The plugin installs Bacon Ipsum filler by default, so be sure to check Settings/Any Ipsum to fully customize your ipsum.
@@ -34,6 +34,12 @@ The plugin installs Bacon Ipsum filler by default, so be sure to check Settings/
 
 
 == Changelog ==
+
+= v1.4.0 June 9, 2015 =
+* Added 'html' format to API, which wraps each paragraph in <p> tags.
+* Added range values for the 'paras' parameter to allow random number of paragraphs, ex: paras=3-7
+* Added charset to Content-Type header for all API calls
+* Added Content-Length header for all API calls
 
 = v1.3.0 May 29, 2015 =
 * API now supports a 'format' parameter to specify return format
@@ -69,10 +75,13 @@ The plugin installs Bacon Ipsum filler by default, so be sure to check Settings/
 
 == Upgrade Notice ==
 
-= v1.2.1 March 4, 2015 =
-* Code refactoring to use filter_input() and better WordPress coding standards
-* Fixed activation bug that was not setting up the initial oEmbed settings
+= v1.4.0 June 9, 2015 =
+* Added 'html' format to API, which wraps each paragraph in <p> tags.
+* Added range values for the 'paras' parameter to allow random number of paragraphs, ex: paras=3-7
+* Added charset to Content-Type header for all API calls
+* Added Content-Length header for all API calls
 
+Thanks to Shawn Hooper for the new text and HTML formats.
 
 == Frequently Asked Questions ==
 
